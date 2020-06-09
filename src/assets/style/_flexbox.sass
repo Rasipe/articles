@@ -1,0 +1,41 @@
+@use 'sass:list'
+@use 'sass:map'
+@import '@/assets/style/_variables.sass'
+
+.row
+    display: flex
+    flex-wrap: wrap
+.column
+    display: flex
+    flex-direction: column
+    flex-wrap: wrap
+.justify-center
+    justify-content: center
+
+.justify-between
+    justify-content: space-between
+
+.align-center
+    align-items: center
+
+$col-number: 12
+
+$size: 100% / $col-number
+@for $index from 1 through $col-number
+    .col-#{$index}
+        flex-basis: $size * $index
+    .order-#{$index}
+        order: $index
+
+$breakpoints: ('xl': $screen-xl, 'lg': $screen-lg, 'md': $screen-md, 'sm': $screen-sm, 'xs': $screen-xs)
+
+$count: 0
+@each $name, $breakpoint in $breakpoints
+    $condition: min-width
+    @if $count == 0
+        $condition: max-width
+    @media ($condition: $breakpoint)
+        @for $index from 1 through $col-number
+            .col-#{$name}-#{$index}
+                flex-basis: $size * $index
+    $count: $count + 1
